@@ -37,7 +37,8 @@ async function joinRoom() {
   try {
     await setDoc(
       doc(db, "rooms", roomId),
-      { [playerId]: null,
+      { 
+        [playerId]: null,
         [`names.${playerId}`]: playerName
        },
       { merge: true }
@@ -72,7 +73,6 @@ function listenRoom() {
 
   onSnapshot(roomRef, async (snap) => {
     const data = snap.data();
-    const names = data?.names || {};
 
     if (!data) {
       // doc ainda não criado/sem dados
@@ -80,14 +80,13 @@ function listenRoom() {
       return;
     }
 
+    const names = data.names || {};
+    PlayerName.textContent = names[playerId] || playerName || "Você";
+
     // só considere chaves que parecem ser players (ids aleatórios) = strings curtas
-    const players = Object.keys(data).filter(
-        (k) => k !== "names" && typeof data[k] !== "object"
-    );
+    const players = Object.keys(names)
 
     const otherId = players.find((id) => id !== playerId)
-
-    PlayerName.textContent = names[playerId] || "Você";
     OpponentName.textContent = (otherId && names[otherId]) || "Oponente";
 
     if (players.length < 2) {
