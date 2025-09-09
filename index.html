@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Jokenpô Online</title>
+</head>
+
+<body>
+
+    <main>
+
+            <h1>JOKENPÔ</h1>
+
+        <section class="score">
+            <div class="scorePlayer">
+            <h2>PLAYER</h2>
+            <p><span id="PointHuman">0</span></p>
+            </div>
+            <div class="scoreMachine">
+            <h2>CPU</h2>
+            <p><span id="PointMachine">0</span></p>
+            </div>
+
+        </section>
+
+        <section class="moveselector">
+
+                <div class="moveselector-container">
+
+                    <h2>CHOOSE YOUR MOVE</h2>
+
+                <div class="img-container">
+
+                <div class="img-box">
+
+                    <img  onclick="HumanMove('Rock')" src="assets/pedra.png" alt="">
+                    <img src="assets/pedra.png" class="rocktomove" alt="">
+
+                    <p>ROCK</p>
+                    
+                </div>
+
+                <div class="img-box">
+                    
+                    <img onclick="HumanMove('Paper')" src="assets/papel.png" class="paper" alt="">
+                    <img src="assets/papel.png" class="papertomove" alt="">
+                    <p>PAPER</p>
+
+                </div>
+
+                <div class="img-box">
+
+                    <img  onclick="HumanMove('Scissors')" src="assets/tesoura.png" alt="">
+                    <img src="assets/tesoura.png" class="scissorstomove" alt="">
+
+                    <p>SCISSORS</p>
+
+                </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <button class="StartGame">START</button>
+
+    </main>
+
+</body>
+
+<script src="script.js"></script>
+
+</html>
