@@ -22,8 +22,11 @@ let HumanScore = 0;
 let OpponentScore = 0;
 
 // Firebase helpers vindos do index.html
-const { doc, setDoc, onSnapshot, updateDoc } = window.firestoreHelpers;
-const db = window.db;
+let doc, setDoc, onSnapshot, updateDoc, db;
+document.addEventListener("DOMContentLoaded", () => {
+    ({ doc, setDoc, onSnapshot, updateDoc } = window.firestoreHelpers);
+    db = window.db;
+});
 
 // Identificação
 let playerId = Math.random().toString(36).substr(2, 5);
