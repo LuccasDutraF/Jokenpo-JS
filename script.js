@@ -8,20 +8,57 @@ const paperimgPlayer = document.querySelector(".papertomove-Player")
 const rockimgPlayer = document.querySelector(".rocktomove-Player")
 const scissorsimgPlayer = document.querySelector(".scissorstomove-Player")
 
-let HumanScore = 0
-let MachineScore = 0
+let HumanScore = 0;
+let OpponentScore = 0;
 
 
-const HumanMove = (Humanchoice) => {
-    LetsPlay(Humanchoice, MachineMove())
+const { doc, setDoc, onSnapshot } = window.firestoreHelpers;
+const db = window.db;
+
+
+let playerId = Math.random().toString(36).substr(2, 5);
+let roomId = new URLSearchParams(window.location.search).get("room") || "sala1";
+
+
+async function HumanMove(move) {
+await setDoc(doc(db, "rooms", roomId), {
+[playerId]: move
+}, { merge: true });
 }
 
-const MachineMove = () => {
-    const moves = ['Rock', 'Paper', 'Scissors']
-    const choiceMachine = Math.floor(Math.random() * 3)
 
-    return moves[choiceMachine]
+function listenRoom() {
+const roomRef = doc(db, "rooms", roomId);
+onSnapshot(roomRef, (snap) => {
+const data = snap.data();
+if (!data) return;
+
+
+const players = Object.keys(data);
+if (players.length < 2) {
+whowin.innerHTML = "Esperando oponente...";
+return;
 }
+
+
+const [p1, p2] = players;
+const move1 = data[p1];
+const move2 = data[p2];
+
+
+if (!move1 || !move2) return;
+
+
+if (playerId === p1) {
+LetsPlay(move1, move2);
+} else {
+LetsPlay(move2, move1);
+}
+});
+}
+
+
+listenRoom();
 
 
 const LetsPlay = (human, machine) => {

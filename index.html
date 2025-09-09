@@ -15,65 +15,56 @@
 
     <main>
 
-            <h1>JOKENPÔ</h1>
+        <h1>JOKENPÔ</h1>
 
         <section class="score">
             <div class="scorePlayer">
-            <h2>PLAYER</h2>
-            <div class="imgchosen-player">
-            <div class="imgchosen-player-container">
-            <img src="assets/tesoura.png" class="scissorstomove-Player" alt="">
-            <img src="assets/pedra.png" class="rocktomove-Player" alt="">
-            <img src="assets/papel.png" class="papertomove-Player" alt="">
-            </div>
-            <p><span id="PointHuman">0</span></p>
-            </div>
+                <h2>PLAYER</h2>
+                <div class="imgchosen-player">
+                    <div class="imgchosen-player-container">
+                        <img src="assets/tesoura.png" class="scissorstomove-Player" alt="">
+                        <img src="assets/pedra.png" class="rocktomove-Player" alt="">
+                        <img src="assets/papel.png" class="papertomove-Player" alt="">
+                    </div>
+                    <p><span id="PointHuman">0</span></p>
+                </div>
             </div>
             <div class="scoreMachine">
-            <h2>CPU</h2>
-            <div class="imgchosen-machine">
-            <p><span id="PointMachine">0</span></p>
-            <div class="imgchosen-machine-container">
-            <img src="assets/tesoura.png" class="scissorstomove-Machine" alt="">
-            <img src="assets/pedra.png" class="rocktomove-Machine" alt="">
-            <img src="assets/papel.png" class="papertomove-Machine" alt="">
-            </div>
-            </div>
+                <h2>OPPONENT</h2>
+                <div class="imgchosen-machine">
+                    <p><span id="PointMachine">0</span></p>
+                    <div class="imgchosen-machine-container">
+                        <img src="assets/tesoura.png" class="scissorstomove-Machine" alt="">
+                        <img src="assets/pedra.png" class="rocktomove-Machine" alt="">
+                        <img src="assets/papel.png" class="papertomove-Machine" alt="">
+                    </div>
+                </div>
             </div>
 
         </section>
 
         <section class="moveselector">
 
-                <div class="moveselector-container">
+            <div class="moveselector-container">
 
-                    <h2 class="WhoWin">CHOOSE YOUR MOVE</h2>
+                <h2 class="WhoWin">CHOOSE YOUR MOVE</h2>
 
                 <div class="img-container">
 
-                <div class="img-box">
+                    <div class="img-box">
+                        <img onclick="HumanMove('Rock')" src="assets/pedra.png" alt="">
+                        <p>ROCK</p>
+                    </div>
 
-                    <img  onclick="HumanMove('Rock')" src="assets/pedra.png" alt="">
+                    <div class="img-box">
+                        <img onclick="HumanMove('Scissors')" src="assets/tesoura.png" alt="">
+                        <p>SCISSORS</p>
+                    </div>
 
-                    <p>ROCK</p>
-                    
-                </div>
-
-                <div class="img-box">
-
-                    <img  onclick="HumanMove('Scissors')" src="assets/tesoura.png" alt="">
-
-                    <p>SCISSORS</p>
-
-                </div>
-
-                <div class="img-box">
-                    
-                    <img onclick="HumanMove('Paper')" src="assets/papel.png" class="paper" alt="">
-
-                    <p>PAPER</p>
-
-                </div>
+                    <div class="img-box">
+                        <img onclick="HumanMove('Paper')" src="assets/papel.png" class="paper" alt="">
+                        <p>PAPER</p>
+                    </div>
 
                 </div>
 
@@ -85,8 +76,28 @@
 
     </main>
 
-</body>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-<script src="script.js"></script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDDauWJBpOUUdsbtHW4ov4wiFkVRv4j4NI",
+            authDomain: "jokenpomultiplayer.firebaseapp.com",
+            projectId: "jokenpomultiplayer",
+            storageBucket: "jokenpomultiplayer.firebasestorage.app",
+            messagingSenderId: "841092414228",
+            appId: "1:841092414228:web:4bf6942774c5a64a422001"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.db = db;
+        window.firestoreHelpers = { doc, setDoc, getDoc, onSnapshot };
+    </script>
+
+    <script src="script.js"></script>
+
+</body>
 
 </html>
