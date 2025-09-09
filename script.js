@@ -33,6 +33,8 @@ async function HumanMove(move) {
     }, { merge: true })
 }
 
+window.HumanMove = HumanMove;
+
 // 🔹 Escuta mudanças da sala
 function listenRoom() {
     const roomRef = doc(db, "rooms", roomId)
