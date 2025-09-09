@@ -33,6 +33,14 @@ onSnapshot(roomRef, (snap) => {
 const data = snap.data();
 if (!data) return;
 
+async function joinRoom() {
+    await setDoc(doc(db, "rooms", roomId), {
+        [playerId]: null
+    }, { merge: true });
+}
+
+joinRoom();
+
 
 const players = Object.keys(data);
 if (players.length < 2) {
