@@ -69,15 +69,15 @@
     </main>
 
     <!-- Firebase SDK -->
-    <script type="module">
+     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDDauWJBpOUUdsbtHW4ov4wiFkVRv4j4NI",
             authDomain: "jokenpomultiplayer.firebaseapp.com",
             projectId: "jokenpomultiplayer",
-            storageBucket: "jokenpomultiplayer.firebasestorage.app",
+            storageBucket: "jokenpomultiplayer.appspot.com",
             messagingSenderId: "841092414228",
             appId: "1:841092414228:web:4bf6942774c5a64a422001"
         };
@@ -86,11 +86,11 @@
         const db = getFirestore(app);
 
         window.db = db;
-        window.firestoreHelpers = { doc, setDoc, getDoc, onSnapshot };
+        window.firestoreHelpers = { doc, setDoc, onSnapshot, updateDoc };
     </script>
 
     <!-- Seu código principal -->
-    <script type="module" src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>
