@@ -1,9 +1,12 @@
 const PointHuman = document.querySelector("#PointHuman")
 const PointMachine = document.querySelector("#PointMachine")
-const paperimg = document.querySelector(".papertomove")
-const paperimg2 = document.querySelector(".papertomove2")
-const rockimg = document.querySelector(".rocktomove")
-const scissorsimg = document.querySelector(".scissorstomove")
+const whowin = document.querySelector (".WhoWin")
+const paperimgMachine = document.querySelector(".papertomove-Machine")
+const rockimgMachine = document.querySelector(".rocktomove-Machine")
+const scissorsimgMachine = document.querySelector(".scissorstomove-Machine")
+const paperimgPlayer = document.querySelector(".papertomove-Player")
+const rockimgPlayer = document.querySelector(".rocktomove-Player")
+const scissorsimgPlayer = document.querySelector(".scissorstomove-Player")
 
 let HumanScore = 0
 let MachineScore = 0
@@ -23,311 +26,390 @@ const MachineMove = () => {
 
 const LetsPlay = (human, machine) => {
 
-    if (human === machine) {
-        console.log("empatou")
-    } else if (
+                 /* IF HUMAN WINS */
+
+    if (
         human === 'Paper' && machine === 'Rock') {
         HumanScore++
         PointHuman.innerHTML = HumanScore
+        whowin.innerHTML = "Você ganhou"
 
-        const animationPaper = paperimg.animate([
-            { transform: 'translateX(-500px)' },       // Frame inicial
-            { transform: 'translateX(-230px)' }    // Frame final
+        rockimgPlayer.style.display = 'none'
+        paperimgPlayer.style.display = 'none'
+        scissorsimgPlayer.style.display = 'none'
+        rockimgMachine.style.display = 'none'
+        paperimgMachine.style.display = 'none'
+        scissorsimgMachine.style.display = 'none'
+
+        const animationPaper = paperimgPlayer.animate([
+            { transform: 'translateX(-250px)' },       // Frame inicial
+            { transform: 'translateX(0px)' }    // Frame final
         ], {
             duration: 450, // Duração em milissegundos
             easing: 'ease-in-out',
             fill: 'forwards'
         });
 
-        const animationRock = rockimg.animate([
-            { transform: 'translateX(700px)' },       // Frame inicial
-            { transform: 'translateX(490px)' }    // Frame final
+        const animationRock = rockimgMachine.animate([
+            { transform: 'translateX(250px)' },       // Frame inicial
+            { transform: 'translateX(0px)' }    // Frame final
         ], {
             duration: 450, // Duração em milissegundos
             easing: 'ease-in-out',
             fill: 'forwards'
         });
-
-        paperimg.style.display = 'none'
-        scissorsimg.style.display = 'none'
-        rockimg.style.display = 'none'
 
         /* Paper Configs */
 
-        paperimg.style.position = 'absolute'
-        paperimg.style.opacity = 1
-        paperimg.style.display = 'flex'
-        paperimg.style.top = '240px'
-        paperimg.style.border = 'none'
-        paperimg.style.boxShadow = 'none'
-        paperimg.style.width = '70px'
+        paperimgPlayer.style.display = 'flex'
 
         /* Rock Configs */
 
-        rockimg.style.position = 'absolute'
-        rockimg.style.opacity = 1
-        rockimg.style.display = 'flex'
-        rockimg.style.top = '240px'
-        rockimg.style.border = 'none'
-        rockimg.style.boxShadow = 'none'
-        rockimg.style.width = '70px'
+        rockimgMachine.style.display = 'flex'
 
         animationPaper
         animationRock
-    }
-    else if
-        (human === 'Scissors' && machine === 'Paper') {
-        const animationScissors = scissorsimg.animate([
-            { transform: 'translateX(-700px)' },      // Frame inicial
-            { transform: 'translateX(-390px)' }    // Frame final
-        ], {
-            duration: 450, // Duração em milissegundos
-            easing: 'ease-in-out',
-            fill: 'forwards'
-        });
-        const animationPaper = paperimg.animate([
-            { transform: 'translateX(600px)' },      // Frame inicial
-            { transform: 'translateX(310px)' }    // Frame final
-        ], {
-            duration: 450, // Duração em milissegundos
-            easing: 'ease-in-out',
-            fill: 'forwards'
-        });
-
-        HumanScore++
-        PointHuman.innerHTML = HumanScore
-
-        paperimg.style.display = 'none'
-        scissorsimg.style.display = 'none'
-        rockimg.style.display = 'none'
-
-        /* Scissors Configs */
-
-        scissorsimg.style.position = 'absolute'
-        scissorsimg.style.opacity = 1
-        scissorsimg.style.display = 'flex'
-        scissorsimg.style.top = '250px'
-        scissorsimg.style.border = 'none'
-        scissorsimg.style.boxShadow = 'none'
-        scissorsimg.style.width = '70px'
-
-        /* Paper Configs */
-
-        paperimg.style.position = 'absolute'
-        paperimg.style.opacity = 1
-        paperimg.style.display = 'flex'
-        paperimg.style.top = '250px'
-        paperimg.style.border = 'none'
-        paperimg.style.boxShadow = 'none'
-        paperimg.style.width = '70px'
-
-        animationScissors
-        animationPaper
-    }
-    else if
-        (human === 'Rock' && machine === 'Scissors') {
-        HumanScore++
-        PointHuman.innerHTML = HumanScore
-
-        const animationRock = rockimg.animate([
-            { transform: 'translateX(-600px)' },      // Frame inicial
-            { transform: 'translateX(-50px)' }    // Frame final
-        ], {
-            duration: 450, // Duração em milissegundos
-            easing: 'ease-in-out',
-            fill: 'forwards'
-        });
-        const animationScissors = scissorsimg.animate([
-            { transform: 'translateX(500px)' },      // Frame inicial
-            { transform: 'translateX(130px)' }    // Frame final
-        ], {
-            duration: 450, // Duração em milissegundos
-            easing: 'ease-in-out',
-            fill: 'forwards'
-        });
-
-        paperimg.style.display = 'none'
-        scissorsimg.style.display = 'none'
-        rockimg.style.display = 'none'
-
-        /* Rock Configs */
-
-        rockimg.style.position = 'absolute'
-        rockimg.style.opacity = 1
-        rockimg.style.display = 'flex'
-        rockimg.style.top = '245px'
-        rockimg.style.border = 'none'
-        rockimg.style.boxShadow = 'none'
-        rockimg.style.width = '70px'
-
-        /* Scissors Configs */
-
-        scissorsimg.style.position = 'absolute'
-        scissorsimg.style.opacity = 1
-        scissorsimg.style.display = 'flex'
-        scissorsimg.style.top = '250px'
-        scissorsimg.style.border = 'none'
-        scissorsimg.style.boxShadow = 'none'
-        scissorsimg.style.width = '70px'
-
-        animationRock
-        animationScissors
     }
     else if(
-        human === 'Paper' && machine === 'Scissors'){
-            const animationScissors = scissorsimg.animate([
-            { transform: 'translateX(600px)' },      // Frame inicial
-            { transform: 'translateX(140px)' }    // Frame final
+        human === 'Rock' && machine === 'Scissors'){
+        HumanScore++
+        PointHuman.innerHTML = HumanScore
+        whowin.innerHTML = "Você ganhou"
+
+        rockimgPlayer.style.display = 'none'
+        paperimgPlayer.style.display = 'none'
+        scissorsimgPlayer.style.display = 'none'
+        rockimgMachine.style.display = 'none'
+        paperimgMachine.style.display = 'none'
+        scissorsimgMachine.style.display = 'none'
+
+        const animationScissor = rockimgPlayer.animate([
+            { transform: 'translateX(-250px)' },       // Frame inicial
+            { transform: 'translateX(0px)' }    // Frame final
         ], {
             duration: 450, // Duração em milissegundos
             easing: 'ease-in-out',
             fill: 'forwards'
         });
-        const animationPaper = paperimg.animate([
-            { transform: 'translateX(-600px)' },      // Frame inicial
-            { transform: 'translateX(-220px)' }    // Frame final
+
+        const animationRock = scissorsimgMachine.animate([
+            { transform: 'translateX(250px)' },       // Frame inicial
+            { transform: 'translateX(0px)' }    // Frame final
         ], {
             duration: 450, // Duração em milissegundos
             easing: 'ease-in-out',
             fill: 'forwards'
         });
-
-        MachineScore++
-        PointMachine.innerHTML = MachineScore
-
-        paperimg.style.display = 'none'
-        scissorsimg.style.display = 'none'
-        rockimg.style.display = 'none'
-
-        /* Scissors Configs */
-
-        scissorsimg.style.position = 'absolute'
-        scissorsimg.style.opacity = 1
-        scissorsimg.style.display = 'flex'
-        scissorsimg.style.top = '250px'
-        scissorsimg.style.border = 'none'
-        scissorsimg.style.boxShadow = 'none'
-        scissorsimg.style.width = '70px'
 
         /* Paper Configs */
 
-        paperimg.style.position = 'absolute'
-        paperimg.style.opacity = 1
-        paperimg.style.display = 'flex'
-        paperimg.style.top = '250px'
-        paperimg.style.border = 'none'
-        paperimg.style.boxShadow = 'none'
-        paperimg.style.width = '70px'
+        rockimgPlayer.style.display = 'flex'
 
-        animationPaper
-        animationScissors
-    }
+        /* Rock Configs */
+        
+        scissorsimgMachine.style.display = 'flex'
+
+        animationScissor
+        animationRock
+        }
     else if(
-        human === 'Rock' && machine === 'Paper'){
+        human === 'Scissors' && machine === 'Paper'){
+        HumanScore++
+        PointHuman.innerHTML = HumanScore
+        whowin.innerHTML = "Você ganhou"
+
+        rockimgPlayer.style.display = 'none'
+        paperimgPlayer.style.display = 'none'
+        scissorsimgPlayer.style.display = 'none'
+        rockimgMachine.style.display = 'none'
+        paperimgMachine.style.display = 'none'
+        scissorsimgMachine.style.display = 'none'
+
+        const animationScissor = scissorsimgPlayer.animate([
+            { transform: 'translateX(-250px)' },       // Frame inicial
+            { transform: 'translateX(0px)' }    // Frame final
+        ], {
+            duration: 450, // Duração em milissegundos
+            easing: 'ease-in-out',
+            fill: 'forwards'
+        });
+
+        const animationPaper = paperimgMachine.animate([
+            { transform: 'translateX(250px)' },       // Frame inicial
+            { transform: 'translateX(0px)' }    // Frame final
+        ], {
+            duration: 450, // Duração em milissegundos
+            easing: 'ease-in-out',
+            fill: 'forwards'
+        });
+
+        /* scissors configs */
+
+        scissorsimgPlayer.style.display = 'flex'
+
+        /* paper configs */
+        
+        paperimgMachine.style.display = 'flex'
+
+        animationScissor
+        animationPaper
+        }
+                    /* IF HUMAN WINS */
+
+                    /* IF MACHINE WINS */
+
+        else if(
+            human === 'Rock' && machine === 'Paper'){
         MachineScore++
         PointMachine.innerHTML = MachineScore
+        whowin.innerHTML = "A maquina ganhou"
 
-        const animationPaper = paperimg.animate([
-            { transform: 'translateX(500px)' },       // Frame inicial
-            { transform: 'translateX(310px)' }    // Frame final
+        rockimgPlayer.style.display = 'none'
+        paperimgPlayer.style.display = 'none'
+        scissorsimgPlayer.style.display = 'none'
+        rockimgMachine.style.display = 'none'
+        paperimgMachine.style.display = 'none'
+        scissorsimgMachine.style.display = 'none'
+
+        const animationPaper = rockimgPlayer.animate([
+            { transform: 'translateX(-250px)' },       // Frame inicial
+            { transform: 'translateX(0px)' }    // Frame final
         ], {
             duration: 450, // Duração em milissegundos
             easing: 'ease-in-out',
             fill: 'forwards'
         });
 
-        const animationRock = rockimg.animate([
-            { transform: 'translateX(-700px)' },       // Frame inicial
-            { transform: 'translateX(-50px)' }    // Frame final
+        const animationRock = paperimgMachine.animate([
+            { transform: 'translateX(250px)' },       // Frame inicial
+            { transform: 'translateX(0px)' }    // Frame final
         ], {
             duration: 450, // Duração em milissegundos
             easing: 'ease-in-out',
             fill: 'forwards'
-        });
-
-        paperimg.style.display = 'none'
-        scissorsimg.style.display = 'none'
-        rockimg.style.display = 'none'
+        }); 
 
         /* Paper Configs */
 
-        paperimg.style.position = 'absolute'
-        paperimg.style.opacity = 1
-        paperimg.style.display = 'flex'
-        paperimg.style.top = '250px'
-        paperimg.style.border = 'none'
-        paperimg.style.boxShadow = 'none'
-        paperimg.style.width = '70px'
+        rockimgPlayer.style.display = 'flex'
 
         /* Rock Configs */
 
-        rockimg.style.position = 'absolute'
-        rockimg.style.opacity = 1
-        rockimg.style.display = 'flex'
-        rockimg.style.top = '250px'
-        rockimg.style.border = 'none'
-        rockimg.style.boxShadow = 'none'
-        rockimg.style.width = '70px'
+        paperimgMachine.style.display = 'flex'
 
         animationPaper
         animationRock
-    }
-    else if
-    (human === 'Scissors' && machine === 'Rock'){
+        }
+        else if(
+            human === 'Scissors' && machine === 'Rock'){
         MachineScore++
         PointMachine.innerHTML = MachineScore
+        whowin.innerHTML = "A maquina ganhou"
 
-        const animationRock = rockimg.animate([
-            { transform: 'translateX(700px)' },      // Frame inicial
-            { transform: 'translateX(475px)' }    // Frame final
+        rockimgPlayer.style.display = 'none'
+        paperimgPlayer.style.display = 'none'
+        scissorsimgPlayer.style.display = 'none'
+        rockimgMachine.style.display = 'none'
+        paperimgMachine.style.display = 'none'
+        scissorsimgMachine.style.display = 'none'
+
+        const animationScissor = scissorsimgPlayer.animate([
+            { transform: 'translateX(-250px)' },       // Frame inicial
+            { transform: 'translateX(0px)' }    // Frame final
         ], {
             duration: 450, // Duração em milissegundos
             easing: 'ease-in-out',
             fill: 'forwards'
         });
-        const animationScissors = scissorsimg.animate([
-            { transform: 'translateX(-700px)' },      // Frame inicial
-            { transform: 'translateX(-390px)' }    // Frame final
+
+        const animationRock = rockimgMachine.animate([
+            { transform: 'translateX(250px)' },       // Frame inicial
+            { transform: 'translateX(0px)' }    // Frame final
         ], {
             duration: 450, // Duração em milissegundos
             easing: 'ease-in-out',
             fill: 'forwards'
-        });
+        }); 
 
-        paperimg.style.display = 'none'
-        scissorsimg.style.display = 'none'
-        rockimg.style.display = 'none'
+        /* Paper Configs */
+
+        scissorsimgPlayer.style.display = 'flex'
 
         /* Rock Configs */
 
-        rockimg.style.position = 'absolute'
-        rockimg.style.opacity = 1
-        rockimg.style.display = 'flex'
-        rockimg.style.top = '245px'
-        rockimg.style.border = 'none'
-        rockimg.style.boxShadow = 'none'
-        rockimg.style.width = '70px'
+        rockimgMachine.style.display = 'flex'
 
-        /* Scissors Configs */
-
-        scissorsimg.style.position = 'absolute'
-        scissorsimg.style.opacity = 1
-        scissorsimg.style.display = 'flex'
-        scissorsimg.style.top = '250px'
-        scissorsimg.style.border = 'none'
-        scissorsimg.style.boxShadow = 'none'
-        scissorsimg.style.width = '70px'
-
+        animationScissor
         animationRock
-        animationScissors
+        }
+        else if(
+            human === 'Paper' && machine === 'Scissors'){
+        MachineScore++
+        PointMachine.innerHTML = MachineScore
+        whowin.innerHTML = "A maquina ganhou"
+
+        rockimgPlayer.style.display = 'none'
+        paperimgPlayer.style.display = 'none'
+        scissorsimgPlayer.style.display = 'none'
+        rockimgMachine.style.display = 'none'
+        paperimgMachine.style.display = 'none'
+        scissorsimgMachine.style.display = 'none'
+
+        const animationPaper = paperimgPlayer.animate([
+            { transform: 'translateX(-250px)' },       // Frame inicial
+            { transform: 'translateX(0px)' }    // Frame final
+        ], {
+            duration: 450, // Duração em milissegundos
+            easing: 'ease-in-out',
+            fill: 'forwards'
+        });
+
+        const animationScissor = scissorsimgMachine.animate([
+            { transform: 'translateX(250px)' },       // Frame inicial
+            { transform: 'translateX(0px)' }    // Frame final
+        ], {
+            duration: 450, // Duração em milissegundos
+            easing: 'ease-in-out',
+            fill: 'forwards'
+        }); 
+
+        /* Paper Configs */
+
+        paperimgPlayer.style.display = 'flex'
+
+        /* Rock Configs */
+
+        scissorsimgMachine.style.display = 'flex'
+
+        animationPaper
+        animationScissor
+        }
+
+                    /* IF MACHINE WINS */
+
+                    /* IF NO ONE WINS */
+
+        else if(
+            human === 'Paper' && machine === 'Paper'){
+        whowin.innerHTML = "Empatou"
+
+        rockimgPlayer.style.display = 'none'
+        paperimgPlayer.style.display = 'none'
+        scissorsimgPlayer.style.display = 'none'
+        rockimgMachine.style.display = 'none'
+        paperimgMachine.style.display = 'none'
+        scissorsimgMachine.style.display = 'none'
+
+        const animationPaperPlayer = paperimgPlayer.animate([
+            { transform: 'translateX(-250px)' },       // Frame inicial
+            { transform: 'translateX(0px)' }    // Frame final
+        ], {
+            duration: 450, // Duração em milissegundos
+            easing: 'ease-in-out',
+            fill: 'forwards'
+        });
+
+        const animationPaperMachine = paperimgMachine.animate([
+            { transform: 'translateX(250px)' },       // Frame inicial
+            { transform: 'translateX(0px)' }    // Frame final
+        ], {
+            duration: 450, // Duração em milissegundos
+            easing: 'ease-in-out',
+            fill: 'forwards'
+        }); 
+
+        /* Paper Configs */
+
+        paperimgPlayer.style.display = 'flex'
+
+        /* Rock Configs */
+
+        paperimgMachine.style.display = 'flex'
+
+        animationPaperPlayer
+        animationPaperMachine
+        }
+        else if(
+            human === 'Rock' && machine === 'Rock'){
+        whowin.innerHTML = "Empatou"
+
+        rockimgPlayer.style.display = 'none'
+        paperimgPlayer.style.display = 'none'
+        scissorsimgPlayer.style.display = 'none'
+        rockimgMachine.style.display = 'none'
+        paperimgMachine.style.display = 'none'
+        scissorsimgMachine.style.display = 'none'
+
+        const animationRockPlayer = rockimgPlayer.animate([
+            { transform: 'translateX(-250px)' },       // Frame inicial
+            { transform: 'translateX(0px)' }    // Frame final
+        ], {
+            duration: 450, // Duração em milissegundos
+            easing: 'ease-in-out',
+            fill: 'forwards'
+        });
+
+        const animationRockMachine = rockimgMachine.animate([
+            { transform: 'translateX(250px)' },       // Frame inicial
+            { transform: 'translateX(0px)' }    // Frame final
+        ], {
+            duration: 450, // Duração em milissegundos
+            easing: 'ease-in-out',
+            fill: 'forwards'
+        }); 
+
+        /* Paper Configs */
+
+        rockimgPlayer.style.display = 'flex'
+
+        /* Rock Configs */
+
+        rockimgMachine.style.display = 'flex'
+
+        animationRockPlayer
+        animationRockMachine
+        }
+        else if(
+            human === 'Scissors' && machine === 'Scissors'){
+        whowin.innerHTML = "Empatou"
+
+        rockimgPlayer.style.display = 'none'
+        paperimgPlayer.style.display = 'none'
+        scissorsimgPlayer.style.display = 'none'
+        rockimgMachine.style.display = 'none'
+        paperimgMachine.style.display = 'none'
+        scissorsimgMachine.style.display = 'none'
+
+        const animationScissorPlayer = scissorsimgPlayer.animate([
+            { transform: 'translateX(-250px)' },       // Frame inicial
+            { transform: 'translateX(0px)' }    // Frame final
+        ], {
+            duration: 450, // Duração em milissegundos
+            easing: 'ease-in-out',
+            fill: 'forwards'
+        });
+
+        const animationScissorMachine = scissorsimgMachine.animate([
+            { transform: 'translateX(250px)' },       // Frame inicial
+            { transform: 'translateX(0px)' }    // Frame final
+        ], {
+            duration: 450, // Duração em milissegundos
+            easing: 'ease-in-out',
+            fill: 'forwards'
+        }); 
+
+        /* Paper Configs */
+
+        scissorsimgPlayer.style.display = 'flex'
+
+        /* Rock Configs */
+
+        scissorsimgMachine.style.display = 'flex'
+
+        animationScissorPlayer
+        animationScissorMachine
+        }
+
+                    /* IF NO ONE WINS */
     }
-    else if(human === 'Paper' && machine === 'Paper'){
-        paperimg.style.position = 'absolute'
-        paperimg.style.opacity = 1
-        paperimg.style.display = 'flex'
-        paperimg.style.top = '250px'
-        paperimg.style.border = 'none'
-        paperimg.style.boxShadow = 'none'
-        paperimg.style.width = '70px'
-    }   
-}
+
