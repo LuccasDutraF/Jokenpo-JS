@@ -5,11 +5,17 @@
     font-family: "Press Start 2P", system-ui;
 }
 
+html{
+    overflow-x: hidden;
+}
+
 body {
     background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
     background-size: 20px 20px;
     background-color: #12002f;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 main {
@@ -195,7 +201,117 @@ button:hover {
     font-size: 36px;
 }
 
-@media (max-width: 561px) {
+@media (max-width: 561px){
+    h1{
+        font-size: 40px;
+    }
+
+    .score {
+        gap: 120px;
+        margin-top: 60px;
+    }
+
+    .score p {
+        font-size: 45px;
+        padding: 8px 20px;
+    }
+
+    .moveselector h2 {
+        font-size: 24px;
+    }
+
+     .img-box img {
+        width: 125px;
+    }
+
+    .img-box img:hover {
+        width: 130px;
+    }
+
+    .moveselector-container{
+        margin-top: 30px;
+    }
+
+    .img-container{
+        margin-top: 40px;
+    }
+
+    .scissorstomove-Player,
+    .rocktomove-Player,
+    .papertomove-Player {
+        width: 60px;
+        position: absolute;
+        display: none;
+        top: 5px;
+    }
+
+    .papertomove-Machine,
+    .rocktomove-Machine,
+    .scissorstomove-Machine {
+        width: 60px;
+        position: absolute;
+        display: none;
+        top: 5px;
+    }
+
+}
+
+@media (max-width: 561px){
+    h1{
+        font-size: 40px;
+    }
+
+    .score {
+        gap: 120px;
+        margin-top: 60px;
+    }
+
+    .score p {
+        font-size: 45px;
+        padding: 8px 20px;
+    }
+
+    .moveselector h2 {
+        font-size: 24px;
+    }
+
+     .img-box img {
+        width: 110px;
+    }
+
+    .img-box img:hover {
+        width: 120px;
+    }
+
+    .moveselector-container{
+        margin-top: 30px;
+    }
+
+    .img-container{
+        margin-top: 40px;
+    }
+
+    .scissorstomove-Player,
+    .rocktomove-Player,
+    .papertomove-Player {
+        width: 60px;
+        position: absolute;
+        display: none;
+        top: 5px;
+    }
+
+    .papertomove-Machine,
+    .rocktomove-Machine,
+    .scissorstomove-Machine {
+        width: 60px;
+        position: absolute;
+        display: none;
+        top: 5px;
+    }
+
+}
+
+@media (max-width: 376px) {
     h1 {
         font-size: 25px;
         margin-top: 75px;
