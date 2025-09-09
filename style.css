@@ -201,7 +201,7 @@ button:hover {
     font-size: 36px;
 }
 
-@media (max-width: 561px){
+@media (max-width: 600px){
     h1{
         font-size: 40px;
     }
@@ -256,19 +256,20 @@ button:hover {
 
 }
 
-@media (max-width: 561px){
+@media (max-width: 431px){
     h1{
         font-size: 40px;
+        margin-top: 110px;
     }
 
     .score {
-        gap: 120px;
+        gap: 100px;
         margin-top: 60px;
     }
 
     .score p {
-        font-size: 45px;
-        padding: 8px 20px;
+        font-size: 35px;
+        padding: 7px 15px;
     }
 
     .moveselector h2 {
@@ -276,11 +277,11 @@ button:hover {
     }
 
      .img-box img {
-        width: 110px;
+        width: 95px;
     }
 
     .img-box img:hover {
-        width: 120px;
+        width: 100px;
     }
 
     .moveselector-container{
@@ -294,19 +295,18 @@ button:hover {
     .scissorstomove-Player,
     .rocktomove-Player,
     .papertomove-Player {
-        width: 60px;
+        width: 50px;
         position: absolute;
         display: none;
-        top: 5px;
+ 
     }
 
     .papertomove-Machine,
     .rocktomove-Machine,
     .scissorstomove-Machine {
-        width: 60px;
+        width: 50px;
         position: absolute;
         display: none;
-        top: 5px;
     }
 
 }
