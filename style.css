@@ -24,9 +24,9 @@ h1 {
     background-image: radial-gradient(circle, rgba(255, 0, 153, 1) 0%, rgba(255, 0, 77, 1) 28%);
     -webkit-background-clip: text;
     color: #12002f00;
-    margin-top: 110px;
+    margin-top: 140px;
     text-shadow: 2px 2px 43px #ff0069;
-    font-size: 35px;
+    font-size: 45px;
     padding: 15px 20px;
     border: 4px solid #ff0069;
     border-radius: 15px;
@@ -72,6 +72,63 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.imgchosen-machine {
+    display: flex;
+}
+
+.imgchosen-player {
+    display: flex;
+}
+
+.imgchosen-machine-container {
+    position: relative;
+}
+
+.imgchosen-player-container {
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.scissorstomove-Player {
+    width: 80px;
+    position: absolute;
+    display: none;
+}
+
+.rocktomove-Player {
+    width: 80px;
+    position: absolute;
+    display: none;
+}
+
+.papertomove-Player {
+    width: 80px;
+    position: absolute;
+    display: none;
+}
+
+.papertomove-Machine {
+    width: 80px;
+    position: absolute;
+    display: none;
+  
+}
+
+.rocktomove-Machine {
+    width: 80px;
+    position: absolute;
+    display: none;
+   
+}
+
+.scissorstomove-Machine {
+    width: 80px;
+    position: absolute;
+    display: none;
+   
 }
 
 .moveselector {
@@ -125,20 +182,7 @@ h1 {
     z-index: 6;
 }
 
-.papertomove{
-    opacity: 0;
-    display: none;
-}
 
-.rocktomove{
-    opacity: 0;
-    display: none;
-}
-
-.scissorstomove{
-    opacity: 0;
-    display: none;
-}
 
 .img-box p {
     margin-top: 10px;
@@ -149,6 +193,7 @@ h1 {
 }
 
 button {
+    display: none;
     margin-top: 50px;
     background-color: rgba(0, 0, 0, 0);
     font-size: 35px;
