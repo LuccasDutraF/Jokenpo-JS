@@ -10,8 +10,6 @@ const scissorsimgPlayer = document.querySelector(".scissorstomove-Player");
 const PlayerName = document.getElementById("PlayerName");
 const OpponentName = document.getElementById("OpponentName");
 
-document.getElementById("RoomInfo").textContent = "Sala: " + roomId;
-
 // pergunta uma vez e guarda no navegador
 let playerName = localStorage.getItem("playerName");
 if (!playerName) {
@@ -19,7 +17,7 @@ if (!playerName) {
   localStorage.setItem("playerName", playerName);
 }
 // já mostra no placar local
-PlayerNameEl.textContent = playerName;
+PlayerName.textContent = playerName;
 
 let HumanScore = 0;
 let OpponentScore = 0;
@@ -31,6 +29,8 @@ const db = window.db;
 // Identificação
 let playerId = Math.random().toString(36).substr(2, 5);
 let roomId = new URLSearchParams(window.location.search).get("room") || "sala1";
+
+document.getElementById("RoomInfo").textContent = "Sala: " + roomId;
 
 // ==== Presença na sala + status inicial
 async function joinRoom() {
