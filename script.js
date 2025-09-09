@@ -1,6 +1,6 @@
 const PointHuman = document.querySelector("#PointHuman")
 const PointMachine = document.querySelector("#PointMachine")
-const whowin = document.querySelector (".WhoWin")
+const whowin = document.querySelector(".WhoWin")
 const paperimgMachine = document.querySelector(".papertomove-Machine")
 const rockimgMachine = document.querySelector(".rocktomove-Machine")
 const scissorsimgMachine = document.querySelector(".scissorstomove-Machine")
@@ -8,65 +8,58 @@ const paperimgPlayer = document.querySelector(".papertomove-Player")
 const rockimgPlayer = document.querySelector(".rocktomove-Player")
 const scissorsimgPlayer = document.querySelector(".scissorstomove-Player")
 
-let HumanScore = 0;
-let OpponentScore = 0;
+let HumanScore = 0
+let OpponentScore = 0
 
+// 🔹 Firebase helpers vindos do index.html
+const { doc, setDoc, onSnapshot } = window.firestoreHelpers
+const db = window.db
 
-const { doc, setDoc, onSnapshot } = window.firestoreHelpers;
-const db = window.db;
+let playerId = Math.random().toString(36).substr(2, 5)
+let roomId = new URLSearchParams(window.location.search).get("room") || "sala1"
 
-
-let playerId = Math.random().toString(36).substr(2, 5);
-let roomId = new URLSearchParams(window.location.search).get("room") || "sala1";
-
-
-async function HumanMove(move) {
-await setDoc(doc(db, "rooms", roomId), {
-[playerId]: move
-}, { merge: true });
-}
-
-
-function listenRoom() {
-const roomRef = doc(db, "rooms", roomId);
-onSnapshot(roomRef, (snap) => {
-const data = snap.data();
-if (!data) return;
-
+// 🔹 Marca presença na sala
 async function joinRoom() {
     await setDoc(doc(db, "rooms", roomId), {
         [playerId]: null
-    }, { merge: true });
+    }, { merge: true })
+}
+joinRoom()
+
+// 🔹 Envia jogada do jogador
+async function HumanMove(move) {
+    await setDoc(doc(db, "rooms", roomId), {
+        [playerId]: move
+    }, { merge: true })
 }
 
-joinRoom();
+// 🔹 Escuta mudanças da sala
+function listenRoom() {
+    const roomRef = doc(db, "rooms", roomId)
+    onSnapshot(roomRef, (snap) => {
+        const data = snap.data()
+        if (!data) return
 
+        const players = Object.keys(data)
+        if (players.length < 2) {
+            whowin.innerHTML = "Esperando oponente..."
+            return
+        }
 
-const players = Object.keys(data);
-if (players.length < 2) {
-whowin.innerHTML = "Esperando oponente...";
-return;
+        const [p1, p2] = players
+        const move1 = data[p1]
+        const move2 = data[p2]
+
+        if (!move1 || !move2) return
+
+        if (playerId === p1) {
+            LetsPlay(move1, move2)
+        } else {
+            LetsPlay(move2, move1)
+        }
+    })
 }
-
-
-const [p1, p2] = players;
-const move1 = data[p1];
-const move2 = data[p2];
-
-
-if (!move1 || !move2) return;
-
-
-if (playerId === p1) {
-LetsPlay(move1, move2);
-} else {
-LetsPlay(move2, move1);
-}
-});
-}
-
-
-listenRoom();
+listenRoom()
 
 
 const LetsPlay = (human, machine) => {

@@ -14,7 +14,6 @@
 <body>
 
     <main>
-
         <h1>JOKENPÔ</h1>
 
         <section class="score">
@@ -40,42 +39,32 @@
                     </div>
                 </div>
             </div>
-
         </section>
 
         <section class="moveselector">
-
             <div class="moveselector-container">
-
                 <h2 class="WhoWin">CHOOSE YOUR MOVE</h2>
-
                 <div class="img-container">
-
                     <div class="img-box">
                         <img onclick="HumanMove('Rock')" src="assets/pedra.png" alt="">
                         <p>ROCK</p>
                     </div>
-
                     <div class="img-box">
                         <img onclick="HumanMove('Scissors')" src="assets/tesoura.png" alt="">
                         <p>SCISSORS</p>
                     </div>
-
                     <div class="img-box">
                         <img onclick="HumanMove('Paper')" src="assets/papel.png" class="paper" alt="">
                         <p>PAPER</p>
                     </div>
-
                 </div>
-
             </div>
-
         </section>
 
         <button class="StartGame">START</button>
-
     </main>
 
+    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
         import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
@@ -96,8 +85,8 @@
         window.firestoreHelpers = { doc, setDoc, getDoc, onSnapshot };
     </script>
 
+    <!-- Seu código principal -->
     <script type="module" src="script.js"></script>
-
 </body>
 
 </html>
