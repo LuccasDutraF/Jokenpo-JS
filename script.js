@@ -87,7 +87,10 @@ function listenRoom() {
     const players = Object.keys(names)
 
     const otherId = players.find((id) => id !== playerId)
-    OpponentName.textContent = (otherId && names[otherId]) || "Oponente";
+    
+    if (otherId) {
+  OpponentName.textContent = names[otherId] || "Oponente";
+}
 
     if (players.length < 2) {
       whowin.innerHTML = "Esperando oponente...";
@@ -117,7 +120,10 @@ function listenRoom() {
     try {
       await setDoc(
         roomRef,
-        { [p1]: null, [p2]: null },
+        { [p1]: null, 
+          [p2]: null,
+          names:data.names
+        },
         { merge: true }
       );
       // prepara chave para a próxima rodada
