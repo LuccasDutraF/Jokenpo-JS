@@ -14,15 +14,11 @@
 <body>
 
     <main>
-
-        <p id="RoomInfo">Sala:</p>
-        <a href="https://github.com/LuccasDutraF/Jokenpo-JS?tab=readme-ov-file#jokenpo-js" class="linkSala">Para saber como jogar clique aqui</a>
-
         <h1>JOKENPÔ</h1>
 
         <section class="score">
             <div class="scorePlayer">
-                <h2 id="PlayerName">PLAYER</h2>
+                <h2>PLAYER</h2>
                 <div class="imgchosen-player">
                     <div class="imgchosen-player-container">
                         <img src="assets/tesoura.png" class="scissorstomove-Player" alt="">
@@ -33,7 +29,7 @@
                 </div>
             </div>
             <div class="scoreMachine">
-                <h2 id="OpponentName">OPPONENT</h2>
+                <h2>OPPONENT</h2>
                 <div class="imgchosen-machine">
                     <p><span id="PointMachine">0</span></p>
                     <div class="imgchosen-machine-container">
@@ -68,31 +64,29 @@
         <button class="StartGame">START</button>
     </main>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getFirestore, doc, setDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDDauWJBpOUUdsbtHW4ov4wiFkVRv4j4NI",
-      authDomain: "jokenpomultiplayer.firebaseapp.com",
-      projectId: "jokenpomultiplayer",
-      storageBucket: "jokenpomultiplayer.appspot.com",
-      messagingSenderId: "841092414228",
-      appId: "1:841092414228:web:4bf6942774c5a64a422001"
-    };
+        const firebaseConfig = {
+            apiKey: "AIzaSyDDauWJBpOUUdsbtHW4ov4wiFkVRv4j4NI",
+            authDomain: "jokenpomultiplayer.firebaseapp.com",
+            projectId: "jokenpomultiplayer",
+            storageBucket: "jokenpomultiplayer.firebasestorage.app",
+            messagingSenderId: "841092414228",
+            appId: "1:841092414228:web:4bf6942774c5a64a422001"
+        };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-    // expõe para script.js
-    window.db = db;
-    window.firestoreHelpers = { doc, setDoc, onSnapshot, updateDoc };
-  </script>
+        window.db = db;
+        window.firestoreHelpers = { doc, setDoc, getDoc, onSnapshot };
+    </script>
 
-  <!-- Seu JS vem por último (garante Firebase pronto) -->
-  <script src="script.js?v=1"></script>
-</body>
-</html>
+    <!-- Seu código principal -->
+    <script type="module" src="script.js"></script>
 </body>
 
 </html>

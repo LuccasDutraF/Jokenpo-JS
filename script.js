@@ -7,128 +7,108 @@ const scissorsimgMachine = document.querySelector(".scissorstomove-Machine");
 const paperimgPlayer = document.querySelector(".papertomove-Player");
 const rockimgPlayer = document.querySelector(".rocktomove-Player");
 const scissorsimgPlayer = document.querySelector(".scissorstomove-Player");
-const PlayerName = document.getElementById("PlayerName");
-const OpponentName = document.getElementById("OpponentName");
-
-let playerName = localStorage.getItem("playerName");
-if (!playerName) {
-  playerName = prompt("Digite seu nome:")?.trim() || "Player";
-  localStorage.setItem("playerName", playerName);
-}
-PlayerName.textContent = playerName;
 
 let HumanScore = 0;
 let OpponentScore = 0;
 
-// 🔹 Variáveis globais que só são definidas após Firebase carregar
-let doc, setDoc, onSnapshot, updateDoc, db, roomRef, playerId, roomId;
+// Firebase helpers vindos do index.html
+const { doc, setDoc, onSnapshot } = window.firestoreHelpers;
+const db = window.db;
 
-// ====================
-// FUNÇÕES DO JOGO
-// ====================
+// Identificação
+let playerId = Math.random().toString(36).substr(2, 5);
+let roomId = new URLSearchParams(window.location.search).get("room") || "sala1";
+
+// ==== Presença na sala + status inicial
 async function joinRoom() {
-  try {
-    await setDoc(
-      roomRef,
-      {
-        [`names.${playerId}`]: playerName,
-        [`moves.${playerId}`]: null
-      },
-      { merge: true }
-    );
-    whowin.innerHTML = "Esperando oponente...";
-  } catch (e) {
-    console.error("Falha ao entrar na sala:", e);
-    whowin.innerHTML = "Erro ao entrar na sala";
-  }
-}
-
-async function HumanMove(move) {
-  try {
-    await setDoc(
-      roomRef,
-      { [`moves.${playerId}`]: move, updatedAt: Date.now() },
-      { merge: true }
-    );
-  } catch (e) {
-    console.error("Falha ao enviar jogada:", e);
-  }
-}
-window.HumanMove = HumanMove;
-
-let lastResolved = "";
-function listenRoom() {
-  onSnapshot(roomRef, async (snap) => {
-    if (!snap.exists()) {
-      whowin.innerHTML = "Esperando oponente...";
-      return;
-    }
-
-    const data = snap.data();
-    const names = data.names || {};
-    PlayerName.textContent = names[playerId] || playerName || "Você";
-    const players = Object.keys(names);
-    const otherId = players.find((id) => id !== playerId);
-    OpponentName.textContent = (otherId && names[otherId]) || "Oponente";
-
-    if (!otherId) {
-      whowin.innerHTML = "Esperando oponente...";
-      return;
-    }
-
-    const moves = data.moves || {};
-    const myMove = moves[playerId];
-    const oppMove = moves[otherId];
-
-    if (!myMove || !oppMove) return;
-
-    const roundKey = `${myMove}|${oppMove}`;
-    if (roundKey === lastResolved) return;
-    lastResolved = roundKey;
-
-    LetsPlay(myMove, oppMove);
-
     try {
-      await updateDoc(roomRef, {
-        [`moves.${playerId}`]: null,
-        [`moves.${otherId}`]: null,
-        updatedAt: Date.now(),
-        names: data.names
-      });
-      setTimeout(() => {
-        lastResolved = "";
-        if (otherId) {
-          whowin.innerHTML = "CHOOSE YOUR MOVE";
-        } else {
-          whowin.innerHTML = "Esperando oponente...";
-        }
-      }, 1200);
+        await setDoc(
+            doc(db, "rooms", roomId),
+            { [playerId]: null },
+            { merge: true }
+        );
+        // Mostra status imediatamente ao entrar
+        whowin.innerHTML = "Esperando oponente...";
     } catch (e) {
-      console.error("Falha ao limpar rodada:", e);
+        console.error("Falha ao entrar na sala:", e);
+        whowin.innerHTML = "Erro ao entrar na sala";
     }
-  });
 }
+joinRoom();
 
-// ====================
-// INICIALIZAÇÃO
-// ====================
-window.addEventListener("load", () => {
-  // Pega os helpers do Firebase já expostos no index.html
-  ({ doc, setDoc, onSnapshot, updateDoc } = window.firestoreHelpers);
-  db = window.db;
+// ==== Jogada do jogador (exposta para o HTML)
+async function HumanMove(move) {
+    try {
+        await setDoc(
+            doc(db, "rooms", roomId),
+            { [playerId]: move },
+            { merge: true }
+        );
+    } catch (e) {
+        console.error("Falha ao enviar jogada:", e);
+    }
+}
+window.HumanMove = HumanMove; // importante por causa do onclick no HTML
 
-  // Identificação
-  playerId = Math.random().toString(36).substr(2, 5);
-  roomId = new URLSearchParams(window.location.search).get("room") || "default";
+// ==== Escuta da sala
+let lastResolved = ""; // anti-duplicação de rodada
+function listenRoom() {
+    const roomRef = doc(db, "rooms", roomId);
 
-  document.getElementById("RoomInfo").textContent = "Sala: " + roomId;
-  roomRef = doc(db, "rooms", roomId);
+    onSnapshot(roomRef, async (snap) => {
+        const data = snap.data();
 
-  // Inicia multiplayer
-  joinRoom();
-  listenRoom();
-});
+        if (!data) {
+            // doc ainda não criado/sem dados
+            whowin.innerHTML = "Esperando oponente...";
+            return;
+        }
 
+        // só considere chaves que parecem ser players (ids aleatórios) = strings curtas
+        const players = Object.keys(data).filter((k) => typeof data[k] !== "object");
+
+        if (players.length < 2) {
+            whowin.innerHTML = "Esperando oponente...";
+            return;
+        }
+
+        const [p1, p2] = players;
+        const move1 = data[p1];
+        const move2 = data[p2];
+
+        // precisa das duas jogadas
+        if (!move1 || !move2) return;
+
+        // evita processar a mesma rodada repetidamente nos dois navegadores
+        const roundKey = `${move1}|${move2}`;
+        if (roundKey === lastResolved) return;
+        lastResolved = roundKey;
+
+        // chama sua lógica mantendo perspectiva do jogador local
+        if (playerId === p1) {
+            LetsPlay(move1, move2);
+        } else {
+            LetsPlay(move2, move1);
+        }
+
+        // limpa jogadas para próxima rodada
+        try {
+            await setDoc(
+                roomRef,
+                { [p1]: null, [p2]: null },
+                { merge: true }
+            );
+            // prepara chave para a próxima rodada
+            setTimeout(() => {
+                lastResolved = "";
+                whowin.innerHTML = "CHOOSE YOUR MOVE";
+            }, 400); // dá tempo das animações começarem
+        } catch (e) {
+            console.error("Falha ao limpar rodada:", e);
+        }
+    });
+}
+listenRoom();
 
 // ==== SUA LÓGICA ORIGINAL (mantida) ====
 const LetsPlay = (human, machine) => {
