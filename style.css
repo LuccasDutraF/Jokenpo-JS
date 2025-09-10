@@ -25,6 +25,33 @@ main {
     justify-content: center;
 }
 
+#RoomInfo{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    text-shadow: 2px 2px 43px #ff0069;
+    background-image: radial-gradient(circle, rgba(255, 0, 153, 1) 0%, rgba(255, 0, 77, 1) 28%);
+    -webkit-background-clip: text;
+    color: #12002f00;
+}
+
+.linkSala{
+    position: absolute;
+    top:40px;
+    left: 10px;
+    font-size: 13px;
+    text-shadow: 2px 2px 43px #ff0069;
+    background-image: radial-gradient(circle, rgba(255, 0, 153, 1) 0%, rgba(255, 0, 77, 1) 28%);
+    -webkit-background-clip: text;
+    color: #12002f00;
+}
+
+.explicacao{
+position: absolute;
+    top:100px;
+    left: 40px;
+}
+
 
 h1 {
     background-image: radial-gradient(circle, rgba(255, 0, 153, 1) 0%, rgba(255, 0, 77, 1) 28%);
