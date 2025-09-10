@@ -385,9 +385,13 @@ h1 {
         gap: 80px;
     }
 
-    .score p {
-        font-size: 32px;
-        padding: 8px 20px;
+    .score h2{
+        font-size: 13px;
+    }
+
+   .score p {
+        font-size: 25px;
+        padding: 6px 16px;
     }
 
     .moveselector h2 {
@@ -395,7 +399,7 @@ h1 {
     }
 
     .img-box img {
-        width: 90px;
+        width: 80px;
     }
 
     .img-box img:hover {
@@ -405,7 +409,7 @@ h1 {
     .scissorstomove-Player,
     .rocktomove-Player,
     .papertomove-Player {
-        width: 45px;
+        width: 36px;
         position: absolute;
         display: none;
         top: 5px;
@@ -414,7 +418,7 @@ h1 {
     .papertomove-Machine,
     .rocktomove-Machine,
     .scissorstomove-Machine {
-        width: 45px;
+        width: 36px;
         position: absolute;
         display: none;
         top: 5px;
