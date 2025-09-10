@@ -12,7 +12,7 @@ const scissorsimgPlayer = document.querySelector(".scissorstomove-Player");
 let HumanScore = 0;
 let OpponentScore = 0;
 
-// ===== Firebase helpers vindos do index.html (seu setup) =====
+// ===== Firebase helpers vindos do index.html =====
 const { doc, setDoc, onSnapshot } = window.firestoreHelpers;
 const db = window.db;
 
@@ -28,10 +28,11 @@ let lastResolved = "";
 // ===== Botão "Entrar" do HTML chama isto =====
 window.setRoom = async function () {
   const input = document.getElementById("RoomInput");
-  const chosen = (input?.value || "").trim();
+  const chosen = (input?.value.toLowerCase() || "").trim();
 
   if (!chosen) {
     whowin.textContent = ("Digite o nome/código da sala.");
+    whowin.style.fontSize = "18px"
     return;
   }
 
