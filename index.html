@@ -13,11 +13,6 @@
 
 <body>
 
-    <div class="room-setup">
-  <input type="text" id="RoomInput" placeholder="Digite o nome da sala" />
-  <button onclick="setRoom()" class="buttonEnter">Entrar</button>
-</div>
-
     <main>
         <h1>JOKENPÔ</h1>
 
@@ -66,7 +61,12 @@
             </div>
         </section>
 
-        <button class="StartGame">START</button>
+        <div class="room-setup">
+            <input type="text" id="RoomInput" placeholder="Digite a Sala" />
+            <div class="button-container">
+                <button onclick="setRoom()" class="buttonEnter">Entrar</button>
+            </div>
+        </div>
     </main>
 
     <!-- Firebase SDK -->

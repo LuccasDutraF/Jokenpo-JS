@@ -31,7 +31,7 @@ window.setRoom = async function () {
   const chosen = (input?.value || "").trim();
 
   if (!chosen) {
-    alert("Digite o nome/código da sala.");
+    whowin.textContent = ("Digite o nome/código da sala.");
     return;
   }
 
@@ -58,7 +58,7 @@ window.setRoom = async function () {
 // ===== Jogada do jogador (exposta ao HTML) =====
 async function HumanMove(move) {
   if (!roomRef) {
-    alert("Entre em uma sala primeiro.");
+    whowin.textContent = ("Entre em uma sala primeiro!");
     return;
   }
   try {
