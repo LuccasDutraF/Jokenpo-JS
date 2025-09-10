@@ -1,3 +1,4 @@
+// ===== Seletores (seu código) =====
 const PointHuman = document.querySelector("#PointHuman");
 const PointMachine = document.querySelector("#PointMachine");
 const whowin = document.querySelector(".WhoWin");
@@ -11,104 +12,113 @@ const scissorsimgPlayer = document.querySelector(".scissorstomove-Player");
 let HumanScore = 0;
 let OpponentScore = 0;
 
-// Firebase helpers vindos do index.html
+// ===== Firebase helpers vindos do index.html (seu setup) =====
 const { doc, setDoc, onSnapshot } = window.firestoreHelpers;
 const db = window.db;
 
-// Identificação
+// ===== Identificação do jogador =====
 let playerId = Math.random().toString(36).substr(2, 5);
-let roomId = new URLSearchParams(window.location.search).get("room") || "sala1";
 
-// ==== Presença na sala + status inicial
-async function joinRoom() {
-    try {
-        await setDoc(
-            doc(db, "rooms", roomId),
-            { [playerId]: null },
-            { merge: true }
-        );
-        // Mostra status imediatamente ao entrar
-        whowin.innerHTML = "Esperando oponente...";
-    } catch (e) {
-        console.error("Falha ao entrar na sala:", e);
-        whowin.innerHTML = "Erro ao entrar na sala";
-    }
-}
-joinRoom();
+// ===== Sala (agora vem do input, não da URL) =====
+let roomId = null;
+let roomRef = null;
+let unsubscribe = null;
+let lastResolved = "";
 
-// ==== Jogada do jogador (exposta para o HTML)
+// ===== Botão "Entrar" do HTML chama isto =====
+window.setRoom = async function () {
+  const input = document.getElementById("RoomInput");
+  const chosen = (input?.value || "").trim();
+
+  if (!chosen) {
+    whowin.textContent = ("Digite o nome/código da sala.");
+    return;
+  }
+
+  roomId = chosen;
+  roomRef = doc(db, "rooms", roomId);
+
+  // Mostra status imediatamente
+  whowin.textContent = "Esperando oponente...";
+
+  // Marca presença na sala
+  try {
+    await setDoc(roomRef, { [playerId]: null }, { merge: true });
+  } catch (e) {
+    console.error("Falha ao entrar na sala:", e);
+    whowin.textContent = "Erro ao entrar na sala";
+    return;
+  }
+
+  // Começa a escutar a sala (se trocar de sala, remove listener anterior)
+  if (unsubscribe) unsubscribe();
+  unsubscribe = listenRoom();
+};
+
+// ===== Jogada do jogador (exposta ao HTML) =====
 async function HumanMove(move) {
-    try {
-        await setDoc(
-            doc(db, "rooms", roomId),
-            { [playerId]: move },
-            { merge: true }
-        );
-    } catch (e) {
-        console.error("Falha ao enviar jogada:", e);
-    }
+  if (!roomRef) {
+    whowin.textContent = ("Entre em uma sala primeiro!");
+    return;
+  }
+  try {
+    await setDoc(roomRef, { [playerId]: move }, { merge: true });
+  } catch (e) {
+    console.error("Falha ao enviar jogada:", e);
+  }
 }
 window.HumanMove = HumanMove; // importante por causa do onclick no HTML
 
-// ==== Escuta da sala
-let lastResolved = ""; // anti-duplicação de rodada
+// ===== Escuta da sala (usada só depois de setRoom) =====
 function listenRoom() {
-    const roomRef = doc(db, "rooms", roomId);
+  return onSnapshot(roomRef, async (snap) => {
+    const data = snap.data();
 
-    onSnapshot(roomRef, async (snap) => {
-        const data = snap.data();
+    if (!data) {
+      whowin.textContent = "Esperando oponente...";
+      return;
+    }
 
-        if (!data) {
-            // doc ainda não criado/sem dados
-            whowin.innerHTML = "Esperando oponente...";
-            return;
-        }
+    // considere chaves simples como ids de players (seu modelo atual)
+    const players = Object.keys(data).filter((k) => typeof data[k] !== "object");
 
-        // só considere chaves que parecem ser players (ids aleatórios) = strings curtas
-        const players = Object.keys(data).filter((k) => typeof data[k] !== "object");
+    if (players.length < 2) {
+      whowin.textContent = "Esperando oponente...";
+      return;
+    }
 
-        if (players.length < 2) {
-            whowin.innerHTML = "Esperando oponente...";
-            return;
-        }
+    const [p1, p2] = players;
+    const move1 = data[p1];
+    const move2 = data[p2];
 
-        const [p1, p2] = players;
-        const move1 = data[p1];
-        const move2 = data[p2];
+    // precisa das duas jogadas
+    if (!move1 || !move2) return;
 
-        // precisa das duas jogadas
-        if (!move1 || !move2) return;
+    // evita processar mesma rodada repetidamente
+    const roundKey = `${p1}:${move1}|${p2}:${move2}`;
+    if (roundKey === lastResolved) return;
+    lastResolved = roundKey;
 
-        // evita processar a mesma rodada repetidamente nos dois navegadores
-        const roundKey = `${move1}|${move2}`;
-        if (roundKey === lastResolved) return;
-        lastResolved = roundKey;
+    // sua lógica, mantendo a perspectiva do jogador local
+    if (playerId === p1) {
+      LetsPlay(move1, move2);
+    } else {
+      LetsPlay(move2, move1);
+    }
 
-        // chama sua lógica mantendo perspectiva do jogador local
-        if (playerId === p1) {
-            LetsPlay(move1, move2);
-        } else {
-            LetsPlay(move2, move1);
-        }
-
-        // limpa jogadas para próxima rodada
-        try {
-            await setDoc(
-                roomRef,
-                { [p1]: null, [p2]: null },
-                { merge: true }
-            );
-            // prepara chave para a próxima rodada
-            setTimeout(() => {
-                lastResolved = "";
-                whowin.innerHTML = "CHOOSE YOUR MOVE";
-            }, 400); // dá tempo das animações começarem
-        } catch (e) {
-            console.error("Falha ao limpar rodada:", e);
-        }
-    });
+    // limpa jogadas para próxima rodada
+    try {
+      await setDoc(roomRef, { [p1]: null, [p2]: null }, { merge: true });
+      // prepara para próxima
+      setTimeout(() => {
+        lastResolved = "";
+        whowin.textContent = "CHOOSE YOUR MOVE";
+      }, 400);
+    } catch (e) {
+      console.error("Falha ao limpar rodada:", e);
+    }
+  });
 }
-listenRoom();
 
 // ==== SUA LÓGICA ORIGINAL (mantida) ====
 const LetsPlay = (human, machine) => {
